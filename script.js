@@ -1,3 +1,4 @@
+//Object Literal of employees
 const employee = {
     "alfred": {
         age: 47,
@@ -35,76 +36,80 @@ const employee = {
     },
 }
 
-const getPercentRaise = (years, performance) => {
-    let raiseInSalary = (years / 10) * performance;
-    return raiseInSalary;
-}
 
-const getIncreasedSalary = (age, years, performance, salary) => {
-    let increasedSalary = ((getPercentRaise(years, performance) / 100) * salary) + salary;
-    if (age > 50) {
-        return increasedSalary += 200;
-    } else if (age > 30) {
-        return increasedSalary += 100;
-    } else {
-        return increasedSalary;
+const companyRaiseData = (data) => {
+    //function to determine the percentage raise
+    const getPercentRaise = (years, performance) => {
+        let raiseInSalary = (years / 10) * performance;
+        return raiseInSalary;
     }
-}
 
-const newData = {
-    "percentRaise": {
-        alfred: getPercentRaise(20, 7),
-        john: getPercentRaise(26, 10),
-        joshua: getPercentRaise(35, 9),
-        daniel: getPercentRaise(5, 7),
-        jamie: getPercentRaise(14, 6)
-    },
-
-    "salaries": {
-        alfred: getIncreasedSalary(47, 20, 7, 10000),
-        john: getIncreasedSalary(55, 26, 10, 14000),
-        joshua: getIncreasedSalary(60, 35, 9, 20000),
-        daniel: getIncreasedSalary(30, 5, 7, 10500),
-        jamie: getIncreasedSalary(40, 14, 6, 13000)
-    }
-}
-
-console.log(employee.salaries)
-
-const get15PercentRaise = () => {
-    const percentList = [];
-    const employeeNames = Object.keys(newData.percentRaise);
-    const percents = Object.values(newData.percentRaise);
-    for (let i = 0; i < percents.length; i++) {
-        if (percents[i] >= 15) {
-            percentList.push(employeeNames[i]);
+    //function to determine the new increased salary
+    const getIncreasedSalary = (age, years, performance, salary) => {
+        let increasedSalary = ((getPercentRaise(years, performance) / 100) * salary) + salary;
+        if (age > 50) {
+            return increasedSalary += 200;
+        } else if (age > 30) {
+            return increasedSalary += 100;
+        } else {
+            return increasedSalary;
         }
     }
-    return percentList;
+
+    //Object literal of new percentage raise and increased salaries
+    const newData = {
+        "percentRaise": {
+            alfred: getPercentRaise(20, 7),
+            john: getPercentRaise(26, 10),
+            joshua: getPercentRaise(35, 9),
+            daniel: getPercentRaise(5, 7),
+            jamie: getPercentRaise(14, 6)
+        },
+
+        "salaries": {
+            alfred: getIncreasedSalary(47, 20, 7, 10000),
+            john: getIncreasedSalary(55, 26, 10, 14000),
+            joshua: getIncreasedSalary(60, 35, 9, 20000),
+            daniel: getIncreasedSalary(30, 5, 7, 10500),
+            jamie: getIncreasedSalary(40, 14, 6, 13000)
+        }
+    }
+
+    //function to determine which employee has atleast 15% raise
+    const get15PercentRaise = () => {
+        const percentList = [];
+        const employeeNames = Object.keys(newData.percentRaise); //Converts Object properties to an array
+        const percents = Object.values(newData.percentRaise); //Converts Object values to an array
+        for (let i = 0; i < percents.length; i++) {
+            if (percents[i] >= 15) {
+                percentList.push(employeeNames[i]);
+            }
+        }
+        return percentList;
+    }
+
+    //function to calculate the sum of all employees' salaries before increase
+    const getSumOfOldSalaries = () => {
+        const sumOfOldSalaries = employee.alfred.salary + employee.john.salary +
+            employee.joshua.salary + employee.daniel.salary + employee.jamie.salary;
+        return sumOfOldSalaries;
+    }
+
+    //function to calculate the sum of all employees' salaries after increase
+    const getSumOfNewSalaries = () => {
+        const arrOfNewSalaries = Object.values(newData.salaries);
+        const sumOfNewSalaries = arrOfNewSalaries.reduce((a, b) => a + b);
+        return sumOfNewSalaries;
+    }
+
+    //function to determine the overall payout increase
+    const getOverallPayoutIncrease = () => getSumOfNewSalaries() - getSumOfOldSalaries();
+
+    return {
+        salaries: [newData.salaries],
+        raiseBy15Percent: get15PercentRaise(),
+        overallPayoutIncrease: getOverallPayoutIncrease()
+    }
 }
 
-console.log(get15PercentRaise());
-
-const getOldSalaries = () => {
-    let oldSalaries = employee.alfred.salary + employee.john.salary +
-        employee.joshua.salary + employee.daniel.salary + employee.jamie.salary;
-    return oldSalaries;
-}
-
-console.log(getOldSalaries());
-
-const getNewSalarySum = () => {
-    const arrOfNewSalaries = [Object.values(newData.salaries)];
-    const newSalaries = arrOfNewSalaries.reduce((a, b) => a + b);
-    return newSalaries;
-}
-
-/*
-console.log([
-    { "alfred": employee.alfred.newSalary },
-    { "john": employee.john.newSalary },
-    { "joshua": employee.joshua.newSalary },
-    { "daniel": employee.daniel.newSalary },
-    { "jamie": employee.jamie.newSalary }
-]);
- */
+console.log(companyRaiseData());
