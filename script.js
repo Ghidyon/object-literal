@@ -73,8 +73,8 @@ console.log(employee.salaries)
 
 const get15PercentRaise = () => {
     const percentList = [];
-    let employeeNames = Object.keys(newData.percentRaise);
-    let percents = Object.values(newData.percentRaise);
+    const employeeNames = Object.keys(newData.percentRaise);
+    const percents = Object.values(newData.percentRaise);
     for (let i = 0; i < percents.length; i++) {
         if (percents[i] >= 15) {
             percentList.push(employeeNames[i]);
@@ -83,9 +83,23 @@ const get15PercentRaise = () => {
     return percentList;
 }
 
-console.log(get15PercentRaise())
+console.log(get15PercentRaise());
 
+const getOldSalaries = () => {
+    let oldSalaries = employee.alfred.salary + employee.john.salary +
+        employee.joshua.salary + employee.daniel.salary + employee.jamie.salary;
+    return oldSalaries;
+}
 
+console.log(getOldSalaries());
+
+const getNewSalarySum = () => {
+    const arrOfNewSalaries = [Object.values(newData.salaries)];
+    const newSalaries = arrOfNewSalaries.reduce((a, b) => a + b);
+    return newSalaries;
+}
+
+/*
 console.log([
     { "alfred": employee.alfred.newSalary },
     { "john": employee.john.newSalary },
@@ -93,16 +107,4 @@ console.log([
     { "daniel": employee.daniel.newSalary },
     { "jamie": employee.jamie.newSalary }
 ]);
-
-/*
-var person = Object.keys(employee)[0];
-var personSalary = Object.values(employee.alfred)[4];
-var obj = {
-    salaries: [
-        { person: personSalary },
-        { person: personSalary }
-    ]
-}
-
-console.log(obj) */
-
+ */
